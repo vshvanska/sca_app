@@ -1,4 +1,3 @@
-from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -6,7 +5,7 @@ from rest_framework.test import APITestCase
 from cats.models import Cat
 
 
-class SpyCatTests(APITestCase):
+class CatTests(APITestCase):
     def setUp(self):
         self.cat_data = {
             "name": "Persik",
