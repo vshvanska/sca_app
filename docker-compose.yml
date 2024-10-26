@@ -1,0 +1,33 @@
+version: '3'
+
+networks:
+  db-data-net:
+    driver: bridge
+
+services:
+  db:
+    image: postgres:13.3-alpine
+    env_file:
+      - ./.env
+    volumes:
+      - db-data:/var/lib/postgresql
+    networks:
+      - db-data-net
+    ports:
+      - "5433:5432"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    networks:
+      - db-data-net
+    depends_on:
+      - db
+    restart: unless-stopped
+
+volumes:
+  db-data:
